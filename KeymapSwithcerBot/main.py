@@ -61,6 +61,6 @@ def switchKeymap(message: str):
         result = "Результат:\n\n" + switcher.englishToRussian(message.text)
         bot.send_message(message.chat.id, result)
     else:
-        bot.send_message(message.chat.id, "Выберите один из режимов")
+        bot.send_message(message.chat.id, set_mode_message)
 
 bot.polling(none_stop=True)
