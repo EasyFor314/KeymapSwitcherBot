@@ -11,6 +11,7 @@ ru_en = {"й":"q", "ц":"w", "у":"e", "к":"r", "е":"t", "н":"y",
          "т":"n", "ь":"m", "б":",", "ю":",", ",":"?"}
 
 switcherMode = "off"
+import chardet
 
 def englishToRussian (inputString):
     inputList = list(inputString)
@@ -39,10 +40,20 @@ def russianToEnglish (inputString):
     return result
 
 def setMode (mode):
+    """Установить мод"""
     global switcherMode
     if mode == "english" or mode == "russian":
         switcherMode = str(mode)
     pass
 
+def detect_mode(message):
+    """ Определить мод по вводимому тексту"""
+    detect_name_language = chardet.detect(message.encode('cp1251'))['language']
+    if detect_name_language == "Russian":
+        setMode("russian")
+    elif detect_name_language == "English":
+        setMode("english")
+
 def getMode ():
+    """Получить текущий мод мод"""
     return switcherMode
