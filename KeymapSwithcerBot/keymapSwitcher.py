@@ -49,6 +49,7 @@ def setMode (mode):
 def detect_mode(message):
     """ Определить мод по вводимому тексту"""
     detect_name_language = chardet.detect(message.encode('cp1251'))['language']
+    print("Определили язык " + detect_name_language)
     if detect_name_language == "Russian":
         setMode("russian")
     elif detect_name_language == "English":
