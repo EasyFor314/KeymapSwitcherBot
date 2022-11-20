@@ -55,10 +55,10 @@ def setRussianMode(message):
 def switchKeymap(message: str):
     switcher.detect_mode(message.text)
     if switcher.getMode() == "russian":
-        result = "Результат:\n" + switcher.russianToEnglish(message.text)
+        result = switcher.russianToEnglish(message.text)
         bot.send_message(message.chat.id, result)
     elif switcher.getMode() == "english":
-        result = "Результат:\n\n" + switcher.englishToRussian(message.text)
+        result = switcher.englishToRussian(message.text)
         bot.send_message(message.chat.id, result)
     else:
         bot.send_message(message.chat.id, set_mode_message)
