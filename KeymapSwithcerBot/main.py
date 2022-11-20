@@ -17,6 +17,14 @@ welcome_message = """Привет,{0.first_name}! 🤙🏼🤙🏼🤙🏼
 Режим работы определяется автоматически при в воде текста
 """
 
+set_mode_message = """ Выберите один из режимов:
+Чтобы активировать  🇺🇸 ➡️ 🇷🇺 
+отправь боту команду 👉🏼 /entoru
+
+Чтобы активировать  🇷🇺 ➡️ 🇺🇸
+отправь боту команду 👉🏼 /rutoen
+"""
+
 @bot.message_handler(commands=["start", "help"])
 def welcome(message):
     bot.send_message(message.chat.id, welcome_message.format(message.from_user))
@@ -42,8 +50,10 @@ def setRussianMode(message):
         bot.send_message(message.chat.id, "Введите сообщение для перевода")
     pass
 
+
 @bot.message_handler(content_types=["text"])
-def switchKeymap(message):
+def switchKeymap(message: str):
+    switcher.detect_mode(message.text)
     if switcher.getMode() == "russian":
         result = "Результат:\n" + switcher.russianToEnglish(message.text)
         bot.send_message(message.chat.id, result)
@@ -52,5 +62,5 @@ def switchKeymap(message):
         bot.send_message(message.chat.id, result)
     else:
         bot.send_message(message.chat.id, "Выберите один из режимов")
-        
+
 bot.polling(none_stop=True)
