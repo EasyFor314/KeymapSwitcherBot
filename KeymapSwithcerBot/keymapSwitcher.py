@@ -10,8 +10,13 @@ ru_en = {"й":"q", "ц":"w", "у":"e", "к":"r", "е":"t", "н":"y",
          "д":"l", "я":"z", "ч":"x", "с":"c", "м":"v", "и":"b",
          "т":"n", "ь":"m", "б":",", "ю":",", ",":"?"}
 
+# af, ar, bg, bn, ca, cs, cy, da, de, el, en, es, et, fa,
+# fi, fr, gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv,
+# mk, ml, mr, ne, nl, no, pa, pl, pt, ro, ru, sk, sl, so,
+# sq, sv, sw, ta, te, th, tl, tr, uk, ur, vi, zh-cn, zh-tw
+
 switcherMode = "off"
-import chardet
+import langid
 
 def englishToRussian (inputString):
     inputList = list(inputString)
@@ -42,18 +47,22 @@ def russianToEnglish (inputString):
 def setMode (mode):
     """Установить мод"""
     global switcherMode
-    if mode == "english" or mode == "russian":
-        switcherMode = str(mode)
+    switcherMode = str(mode)
     pass
 
-def detect_mode(message):
+def detect_mode(message: str):
     """ Определить мод по вводимому тексту"""
-    detect_name_language = chardet.detect(message.encode('cp1251'))['language']
-    print("Определили язык " + detect_name_language)
-    if detect_name_language == "Russian":
+    #print(message)
+    langid.set_languages(['ru', 'en'])  # ISO 639-1 codes
+    detect_name_language, score = langid.classify(message)
+    #print(detect_name_language)  # en
+    #print("Определили язык " + detect_name_language)
+    if detect_name_language == "ru":
         setMode("russian")
-    elif detect_name_language == "English":
+    elif detect_name_language == "en":
         setMode("english")
+    else:
+        setMode("off")
 
 def getMode ():
     """Получить текущий мод мод"""
