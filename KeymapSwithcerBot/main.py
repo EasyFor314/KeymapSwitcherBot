@@ -57,7 +57,7 @@ def switchKeymap(message: str):
     logging.basicConfig(level=logging.DEBUG, filename='myapp.log', format='%(asctime)s %(levelname)s:%(message)s')
     try:
         switcher.detect_mode(message.text)
-        logging.debug("Input data:", str(message))
+        logging.debug("Input id account = :" + str(message.from_user.id))
         if switcher.getMode() == "russian":
             result = switcher.russianToEnglish(message.text)
             bot.send_message(message.chat.id, result)
@@ -68,5 +68,6 @@ def switchKeymap(message: str):
             bot.send_message(message.chat.id, set_mode_message)
     except Exception as error:
         logging.error('Возникла ошибка {0}'.format(str(error)))
+        bot.send_message(message.chat.id, "Произошла ошибка, повторите позднее")
 
 bot.polling(none_stop=True)
