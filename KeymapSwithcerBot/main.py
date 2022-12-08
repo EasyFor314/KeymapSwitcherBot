@@ -1,6 +1,7 @@
 import keymapSwitcher as switcher
 import telebot
 import config
+import logging
 
 bot = telebot.TeleBot(config.TOKEN)
 
@@ -53,14 +54,19 @@ def setRussianMode(message):
 
 @bot.message_handler(content_types=["text"])
 def switchKeymap(message: str):
-    switcher.detect_mode(message.text)
-    if switcher.getMode() == "russian":
-        result = switcher.russianToEnglish(message.text)
-        bot.send_message(message.chat.id, result)
-    elif switcher.getMode() == "english":
-        result = switcher.englishToRussian(message.text)
-        bot.send_message(message.chat.id, result)
-    else:
-        bot.send_message(message.chat.id, set_mode_message)
+    try:
+        switcher.detect_mode(message.text)
+        logging.debug("Input data:", str(message))
+        if switcher.getMode() == "russian":
+            result = switcher.russianToEnglish(message.text)
+            bot.send_message(message.chat.id, result)
+        elif switcher.getMode() == "english":
+            result = switcher.englishToRussian(message.text)
+            bot.send_message(message.chat.id, result)
+        else:
+            bot.send_message(message.chat.id, set_mode_message)
+    except Exception as error:
+        logging.error('Возникла ошибка {0}'.format(str(error)))
 
 bot.polling(none_stop=True)
+logging.basicConfig(level=logging.DEBUG, filename='myapp.log', format='%(asctime)s %(levelname)s:%(message)s')
