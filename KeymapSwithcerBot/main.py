@@ -54,6 +54,7 @@ def setRussianMode(message):
 
 @bot.message_handler(content_types=["text"])
 def switchKeymap(message: str):
+    logging.basicConfig(level=logging.DEBUG, filename='myapp.log', format='%(asctime)s %(levelname)s:%(message)s')
     try:
         switcher.detect_mode(message.text)
         logging.debug("Input data:", str(message))
@@ -69,4 +70,3 @@ def switchKeymap(message: str):
         logging.error('Возникла ошибка {0}'.format(str(error)))
 
 bot.polling(none_stop=True)
-logging.basicConfig(level=logging.DEBUG, filename='myapp.log', format='%(asctime)s %(levelname)s:%(message)s')
