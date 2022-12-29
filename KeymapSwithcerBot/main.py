@@ -54,10 +54,10 @@ def setRussianMode(message):
 
 @bot.message_handler(content_types=["text"])
 def switchKeymap(message: str):
-    logging.basicConfig(level=logging.DEBUG, filename='myapp.log', format='%(asctime)s %(levelname)s:%(message)s')
+    logging.basicConfig(level=logging.INFO, filename='myapp.log', format='%(asctime)s %(levelname)s:%(message)s')
     try:
         switcher.detect_mode(message.text)
-        logging.debug("Input id account = :" + str(message.from_user.id))
+        logging.info("Input id account = :" + str(message.from_user.id))
         if switcher.getMode() == "russian":
             result = switcher.russianToEnglish(message.text)
             bot.send_message(message.chat.id, result)
