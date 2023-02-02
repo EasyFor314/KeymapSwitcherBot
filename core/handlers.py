@@ -37,7 +37,8 @@ set_mode_message = """ Выберите один из режимов:
 Чтобы активировать  🇷🇺 ➡️ 🇺🇸
 отправь боту команду 👉🏼 /rutoen
 """
-reg_pattern = ', \[[0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{2}:[0-9]{2}\]'
+reg_pattern = ', \[[0-9]{2}.[0-9]{2}.[0-9]{4} [0-9]{1,2}:[0-9]{2}\]'
+href_pattern = '(http|ftp|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])'
 
 async def welcome(msg: types.Message):
     await msg.answer(welcome_message.format(msg.from_user))
@@ -70,7 +71,7 @@ async def switchKeymap(msg: types.Message):
         output_msg = ''
         for item in spl_lst:
             if item:
-                if re.search(reg_pattern, item):
+                if re.search(reg_pattern, item) or re.search(href_pattern, item):
                     logging.info('Оставляем как есть')
                     output_msg += item + '\n'
                 else:
