@@ -1,0 +1,5 @@
+import os
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+MONITOR_HOST = os.getenv("MONITOR_HOST")
+MONITOR_LOGIN = os.getenv("MONITOR_LOGIN")
+MONITOR_PASSWORD = os.getenv("MONITOR_PASSWORD")

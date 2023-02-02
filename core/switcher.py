@@ -9,7 +9,8 @@ ru_en = {"й":"q", "ц":"w", "у":"e", "к":"r", "е":"t", "н":"y",
          "г":"u", "ш":"i", "щ":"o", "з":"p", "ф":"a", "ы":"s",
          "в":"d", "а":"f", "п":"g", "р":"h", "о":"j", "л":"k",
          "д":"l", "ж":";", "'":"э", "я":"z", "ч":"x", "с":"c",
-         "м":"v", "и":"b", "т":"n", "ь":"m", "б":",", "ю":".", ",":"?", ".":"/", "ё":"`"}
+         "м":"v", "и":"b", "т":"n", "ь":"m", "б":",", "ю":".", 
+         ",":"?", ".":"/", "ё":"`", "ъ":"]",}
 
 # af, ar, bg, bn, ca, cs, cy, da, de, el, en, es, et, fa,
 # fi, fr, gu, he, hi, hr, hu, id, it, ja, kn, ko, lt, lv,
@@ -18,9 +19,12 @@ ru_en = {"й":"q", "ц":"w", "у":"e", "к":"r", "е":"t", "н":"y",
 
 switcherMode = "off"
 import langid
+import logging
 
 def englishToRussian (inputString):
+    logging.info("Input String : " + str(inputString))
     inputList = list(inputString)
+    logging.info("English To Russian : " + str(inputList))
     resultList = list()
     for elem in inputList:
         if elem.isupper() and en_ru.get(elem.lower()) != None:
@@ -33,7 +37,9 @@ def englishToRussian (inputString):
     return result
 
 def russianToEnglish (inputString):
+    logging.info("Input String : " + str(inputString))
     inputList = list(inputString)
+    logging.info("Russian To English : " + str(inputList))
     resultList = list()
     for elem in inputList:
         if elem.isupper() and ru_en.get(elem.lower()) != None:
@@ -55,6 +61,7 @@ def detect_mode(message: str):
     """ Определить мод по вводимому тексту"""
     #print(message)
     langid.set_languages(['ru', 'en'])  # ISO 639-1 codes
+    
     detect_name_language, score = langid.classify(message)
     #print(detect_name_language)  # en
     #print("Определили язык " + detect_name_language)

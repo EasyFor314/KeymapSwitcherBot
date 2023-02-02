@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+  bot:
+    container_name: keymapSwitcher
+    build: .
+    env_file:
+      - ./.env
+    restart: always
+    command: "ado start"
+    volumes:
+      - ".:/app"
