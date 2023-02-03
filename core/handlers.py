@@ -4,8 +4,9 @@ import re
 from aiogram import Dispatcher
 from aiogram import types
 
-from core.metric import REQUEST_TIME, START_COUNTER
+from core.metric import REQUEST_TIME, START_COUNTER, REQ_TIME
 from core import switcher
+from prometheus_async.aio import time
 
 def main_handlers(dp: Dispatcher):
     dp.register_message_handler(welcome, lambda message: message.text in ["start", "help"] )
@@ -63,6 +64,7 @@ async def setRussianMode(msg: types.Message):
 
 
 @REQUEST_TIME.time()
+@time(REQ_TIME)
 async def switchKeymap(msg: types.Message):
     try:
         START_COUNTER.inc()
