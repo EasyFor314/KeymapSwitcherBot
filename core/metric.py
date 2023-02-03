@@ -9,7 +9,9 @@ from core.config import *
    
 registry = CollectorRegistry()
 START_COUNTER = Counter('keymap_action', 'Count action keymapswitcher bot' , registry=registry)  
-REQUEST_TIME = Summary('keymap_action_request_processing_seconds', 'Time spent processing request keymap action')
+REQUEST_TIME = Summary('keymap_action_request_processing_seconds', 'Time spent processing request keymap action', registry=registry)
+
+REQ_TIME = Histogram("keymap_action_req_time_seconds", "time spent in requests", registry=registry)
 
 # Decorate function with metric.
 
