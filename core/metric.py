@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from prometheus_client import Counter, Summary, Histogram
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
@@ -24,7 +25,10 @@ def my_auth_handler(url, method, timeout, headers, data):
 async def background_on_start() -> None:
     """background task which is created when bot starts"""
     while True:
-        if not MONITOR_HOST:
-            return
-        await asyncio.sleep(30)
-        push_to_gateway(MONITOR_HOST, job='keymapSwitcher', registry=registry, handler=my_auth_handler)
+        try:
+           if not MONITOR_HOST:
+              return
+           await asyncio.sleep(30)
+           push_to_gateway(MONITOR_HOST, job='keymapSwitcher', registry=registry, handler=my_auth_handler)
+        except Exception as e:
+           logging.error("Backgroud Metric Send Exception : " + str(e))
